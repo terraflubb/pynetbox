@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 import requests
 
 from pynetbox.core.query import Request
@@ -109,6 +110,7 @@ class Api:
         """
         version = Request(
             base=self.base_url,
+            token=self.token,
             http_session=self.http_session,
         ).get_version()
         return version
@@ -132,6 +134,7 @@ class Api:
         """
         return Request(
             base=self.base_url,
+            token=self.token,
             http_session=self.http_session,
         ).get_openapi()
 

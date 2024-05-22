@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 import concurrent.futures as cf
 import json
 from packaging import version
@@ -157,7 +158,8 @@ class Request:
             "Accept": "application/json",
             "Content-Type": "application/json",
         }
-
+        if self.token:
+            headers["authorization"] = "Token {}".format(self.token)
         current_version = version.parse(self.get_version())
         if current_version >= version.parse("3.5"):
             req = self.http_session.get(
@@ -185,9 +187,9 @@ class Request:
         :Returns: Version number as a string. Empty string if version is not
         present in the headers.
         """
-        headers = {
-            "Content-Type": "application/json",
-        }
+        headers = {"Content-Type": "application/json"}
+        if self.token:
+            headers["authorization"] = "Token {}".format(self.token)
         req = self.http_session.get(
             self.normalize_url(self.base),
             headers=headers,
